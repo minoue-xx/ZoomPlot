@@ -69,7 +69,13 @@ classdef BaseZoom < handle
             position_(1, 4) = axes1.Position(4)*position_(4);
             
             obj.axes2 = axes('Position', position_);
-            copyobj(get(axes1, 'children'), obj.axes2)
+            
+            obj2copy = findobj(axes1, 'Tag', 'Zoom');
+            if isempty(obj2copy)
+                copyobj(get(axes1, 'children'), obj.axes2)
+            else
+                copyobj(obj2copy, obj.axes2)
+            end
             
             obj.XLimNew = parameters.zoomZone(1, :);
             obj.YLimNew = parameters.zoomZone(2, :);
